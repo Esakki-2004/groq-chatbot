@@ -15,17 +15,16 @@ st.markdown("""
 <style>
     /* 1. Main Background & Text */
     .stApp {
-        background-color: #0E1117; /* Very dark grey */
+        background-color: #0E1117; 
         color: #FAFAFA;
     }
 
     /* 2. Sidebar Styling */
     section[data-testid="stSidebar"] {
-        background-color: #111111; /* Black sidebar */
+        background-color: #111111; 
         border-right: 1px solid #333;
     }
     
-    /* Sidebar text and inputs */
     section[data-testid="stSidebar"] .stMarkdown,
     section[data-testid="stSidebar"] label,
     section[data-testid="stSidebar"] .stCaption {
@@ -34,7 +33,7 @@ st.markdown("""
 
     /* 3. Chat Message Containers */
     .stChatMessage {
-        background-color: #1E1E1E; /* Dark grey bubbles */
+        background-color: #1E1E1E; 
         border: 1px solid #333;
         border-radius: 12px;
         padding: 15px;
@@ -42,14 +41,12 @@ st.markdown("""
     }
 
     /* 4. User Message Specific Styling */
-    /* Target the user message content specifically */
     [data-testid="stChatMessageContentUser"] {
-        background: linear-gradient(135deg, #F55036 0%, #F58536 100%); /* Groq Orange/Red Gradient */
+        background: linear-gradient(135deg, #F55036 0%, #F58536 100%); 
         color: white;
         border-radius: 15px;
         padding: 10px 15px;
     }
-    /* Hide the default user avatar border */
     [data-testid="stChatMessageAvatarUser"] {
         background-color: transparent;
     }
@@ -65,7 +62,6 @@ st.markdown("""
         border: 1px solid #333;
         border-radius: 12px;
     }
-    /* Input text color */
     .stChatInput textarea {
         color: #FFFFFF !important;
     }
@@ -78,10 +74,9 @@ st.markdown("""
     }
     .stButton button:hover {
         background-color: #444;
-        border-color: #F55036; /* Groq orange hover */
+        border-color: #F55036; 
     }
     
-    /* Selectbox styling */
     div[data-baseweb="select"] > div {
         background-color: #222;
         border-color: #444;
@@ -109,11 +104,16 @@ st.markdown("""
 
 # --- Sidebar Configuration ---
 with st.sidebar:
-    # Using markdown for the logo to ensure it fits the dark theme if external
     st.markdown("<h2 style='color: #F55036; font-weight: bold;'>⚡ Groq Chat</h2>", unsafe_allow_html=True)
     
-    # API Key Input
-    api_key = st.text_input("Enter your Groq API Key:", type="password", key="api_key_input")
+    # --- UPDATED API KEY LOGIC ---
+    # Check if the key exists in Streamlit Secrets (Settings)
+    if "GROQ_API_KEY" in st.secrets:
+        api_key = st.secrets["GROQ_API_KEY"]
+        st.success("API Key Loaded from Secrets ✅")
+    else:
+        # If not in secrets, ask the user to input it
+        api_key = st.text_input("Enter your Groq API Key:", type="password", key="api_key_input")
     
     st.divider()
     
